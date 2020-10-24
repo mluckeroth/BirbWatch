@@ -12,7 +12,28 @@ assess the classification accuracy.  The historical data log and sample images a
 
 ###
 
+### AIY Vision System
 
+__Overview__
+ - On startup launchs remote access
+ - On startup lanuchs AIY INaturalist bird identification NN
+ - Streams predicted bird sighting classification to a filter function
+    - Filter function combines a window of video frame classification predictions to give confidence in sighting
+    - Filter function writes predicted sighting to a text log file
+    - At random intervals (maximum frequency) the image with predicted sighting and bounding box are also saved
+    - After a set period of time the text log file and captured images are transfered to the RPi database 
+        - log file and image data are cleared
+        
+### RPi
+
+__Overview__
+ - Collects new text data log files from AIY Vision System and appends existing database
+ - Collects new captured images, deleted old batch of images:
+    - Updates website with new image
+    - Potential to submit image to online NN to spot check error rate
+ - Runs data analysis and data visualization scripts on database
+ - Hosts website that displays the updated data analysis 
+  
 
 ### How to remote login to AIY RPi
 
