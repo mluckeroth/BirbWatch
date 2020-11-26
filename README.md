@@ -15,14 +15,42 @@ assess the classification accuracy.  The historical data log and sample images a
 ### AIY Vision System
 
 __Overview__
- - On startup launchs remote access
- - On startup lanuchs AIY INaturalist bird identification NN
+ - Enable remote access
+ - On startup lanuches AIY INaturalist bird identification NN
  - Streams predicted bird sighting classification to a filter function
     - Filter function combines a window of video frame classification predictions to give confidence in sighting
     - Filter function writes predicted sighting to a text log file
     - At random intervals (maximum frequency) the image with predicted sighting and bounding box are also saved
     - After a set period of time the text log file and captured images are transfered to the RPi database 
         - log file and image data are cleared
+        
+#### Remote Access AIY System
+
+ 1. SSH Access to AIY System:
+ 
+    SSH is enabled on the RPi0 through Pi Config:
+     [see raspberrypi.org docs](https://www.raspberrypi.org/documentation/remote-access/ssh/)
+        
+    From the CLI of the computer you are accessing from type `ssh pi@[rpi0 IP address]`
+    Enter AIY system password and prompt: AIY******
+    
+ 2. From AIY SSH CLI lauch VNC server:
+ 
+    with ssh terminal enter: `pi@rasberrypi:~ $ vncserver`
+    
+    VNCviewer will launch a new desktop on raspberrypi and provide an address eg. 192.168.1.1:1
+    
+ 3. Launch VNCviewer from the computer you are accessing from and enter the address for the new desktop from step 2.
+    
+    Enter AIY password when prompted
+    
+ 4. `vncserver -kill :<vnc display number>` to end virtual desktop
+    
+    
+#### 
+    
+ 
+    
         
 ### RPi
 
@@ -34,14 +62,6 @@ __Overview__
  - Runs data analysis and data visualization scripts on database
  - Hosts website that displays the updated data analysis 
   
-
-### How to remote login to AIY RPi
-
-AIY RPi0 automatically lauches a VNC server at boot
-
-to login from another computer:
-$ vncviewer 192.168.1.175:1
-Password: 
 
 
 ### How to transfer files to AIY RPi
