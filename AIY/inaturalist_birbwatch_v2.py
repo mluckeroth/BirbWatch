@@ -40,7 +40,7 @@ def CameraPreview(camera, enabled):
             camera.stop_preview()
 
 def main():
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultHelpFormatter)
+    parser = argparse.ArgumentParser('Image classification camera inference example.')
     parser.add_argument('--num_frames', '-n', type=int, default=None,
         help='Sets the number of frames to run for, otherwise runs forever.')
     parser.add_argument('--num_objects', '-c', type=int, default=3,
