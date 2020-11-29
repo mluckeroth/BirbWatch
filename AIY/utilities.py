@@ -27,7 +27,7 @@ def configure_logger(name, log_path):
                 'class': 'logging.handlers.RotatingFileHandler',
                 'formatter': 'default',
                 'filename': log_path,
-                'maxBytes': 1024,
+                'maxBytes': 1024000,
                 'backupCount': 3
             }
         },
