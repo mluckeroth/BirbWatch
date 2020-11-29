@@ -47,7 +47,11 @@ __Overview__
  4. `vncserver -kill :<vnc display number>` to end virtual desktop
     
     
-#### 
+#### AIY Runs inaturalist_birbwatch.py automatically
+
+ 1. The AIY RPi0 is setup to run a cronjob as follows:
+ 
+ 
     
  
     
