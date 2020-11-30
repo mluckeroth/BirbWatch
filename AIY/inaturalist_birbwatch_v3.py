@@ -24,6 +24,7 @@ import contextlib
 import logging
 import utilities
 import collections
+import itertools
 
 from aiy.vision.inference import CameraInference
 from aiy.vision.models import inaturalist_classification
@@ -72,8 +73,8 @@ def main():
          CameraInference(inaturalist_classification.model(model_type)) as inference:
         for result in inference.run(args.num_frames):
             classes = inaturalist_classification.get_classes(result, top_k=args.top_k, threshold=args.threshold)
-            collector.append(classes[0][0])
-            if collector.count(collector[0]) > 4:
+            collector.append(list(itertools.chain(*classes))[0])
+            if collector[0] != 'background'  and collector.count(collector[0]) > 4:
                 log.info(classes_info(classes))
                 collector.clear()
             if classes:
