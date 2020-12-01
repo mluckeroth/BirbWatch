@@ -74,7 +74,7 @@ def main():
         for result in inference.run(args.num_frames):
             classes = inaturalist_classification.get_classes(result, top_k=args.top_k, threshold=args.threshold)
             if classes:
-                collector.append(list(itertools.chain(*classes))[0])
+                collector.appendleft(list(itertools.chain(*classes))[0])
             if len(collector) > 5:
                 if collector[0] != 'background' and collector.count(collector[0]) > 4:
                     log.info(classes_info(classes))
