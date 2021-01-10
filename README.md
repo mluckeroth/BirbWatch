@@ -24,7 +24,7 @@ __Overview__
     - After a set period of time the text log file and captured images are transfered to the RPi database 
         - log file and image data are cleared
         
-#### Remote Access AIY System
+#### Remote Access AIY 
 
  1. SSH Access to AIY System:
  
@@ -49,10 +49,61 @@ __Overview__
     
 #### AIY Runs inaturalist_birbwatch.py automatically
 
- 1. The AIY RPi0 is setup to run a cronjob as follows:
- 
- 
+ 1. Setup ssh shared key to enable data transfer as follows:
     
+    See link: [https://help.ubuntu.com/community/SSH/OpenSSH/Keys](https://help.ubuntu.com/community/SSH/OpenSSH/Keys) for reference
+
+    Also see: [https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md](https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md)
+
+    -    From the AIY RPi0:
+        
+    1) Look for existing key:
+
+    ` ls ~/.ssh`
+
+    if id_rsa.pub or id_dsa.pub files already existing, then skip the next step
+
+    2) Generate new SSH keys
+    
+    `ssh-keygen`
+
+    save it in the default location (~/.ssh/id_rsa) by pressing Enter
+    
+    press enter twice more to opt for no passphrase
+    
+    3) Copy the public key to the Raspberry Pi that will store data, run analysis, and act as web server:
+    
+    `ssh-copy-id pi@<IP-ADDRESS>`
+
+    4) Check that connection works
+
+    5) Disable SSH password access to improve security:
+    
+    See link: [https://www.raspberrypi.org/documentation/configuration/security.md](https://www.raspberrypi.org/documentation/configuration/security.md)
+
+    -   SSH into Raspberry Pi:
+    
+        1) `sudo nano /etc/ssh/sshd_config`
+        2) Change the following 3 lines to no
+    
+        `ChallengeResponseAuthentication no`
+        
+        `PasswordAuthentication no`
+        
+        `UsePAM no`
+    
+        3) Save the file and either restart the ssh system with `sudo service ssh reload` 
+    
+            or reboot
+     
+ 2.  Setup Crontab on the AIY to automatically run inaturalist_birbwatch_vX.py and transfer data to the RPi Server:
+
+    
+
+ 2. The AIY RPi0 is setup to run a cronjob as follows:
+ 
+ 
+
  
     
         
