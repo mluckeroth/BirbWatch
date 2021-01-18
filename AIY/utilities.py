@@ -13,7 +13,7 @@ def configure_logger(name, log_path):
     logging.config.dictConfig({
         'version': 1,
         'formatters': {
-            'default': {'format': '%(asctime)s - %(levelname)s - %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'}
+            'default': {'format': '%(asctime)s, %(levelname)s, %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'}
         },
         'handlers': {
             'console': {

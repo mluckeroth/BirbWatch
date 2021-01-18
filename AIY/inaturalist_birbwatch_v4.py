@@ -19,6 +19,7 @@ classes.
 MODIFIED: Nov 29, 2020 Mark Luckeroth
 run inaturalist model from Pi Camera and log filtered data
 """
+import os
 import argparse
 import contextlib
 import logging
@@ -26,6 +27,7 @@ import utilities
 import collections
 import itertools
 import datetime
+import random
 from astral.sun import sun
 from astral import LocationInfo
 
@@ -33,10 +35,28 @@ from aiy.vision.inference import CameraInference
 from aiy.vision.models import inaturalist_classification
 from picamera import PiCamera
 
-dt = datetime.datetime.now()
-ts = dt.strftime("%Y-%b-%d_%H:%M")
+log_path = '../logs/'
+max_log = 10000000 #bytes in directory
+log = utilities.configure_logger('default', log_path+ts()+'_birbdata.log')
 
-log = utilities.configure_logger('default', '../logs/'+ts+'_birbdata.log')
+
+def ts():
+    return datetime.datetime.now().strftime("%Y-%b-%d_%H:%M")
+
+
+def flip(p):
+    return random.random() < p
+
+
+def get_size(start_path = '.'):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(start_path):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            # skip if it is symbolic link
+            if not os.path.islink(fp):
+                total_size += os.path.getsize(fp)
+    return total_size
 
 
 def sun_up():
@@ -98,6 +118,8 @@ def main():
                 if collector[0] != 'background' and collector.count(collector[0]) > 4:
                     log.info(classes_info(classes))
                     collector.clear()
+                    if get_size(log_path) < max_log and flip(0.1):
+                        camera.capture(log_path+ts()+'.jpg')
             if classes:
                 camera.annotate_text = '%s (%.2f)' % classes[0]
 
